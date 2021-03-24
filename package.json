@@ -1,0 +1,21 @@
+{
+  "name": "webpack-webhooks-plugin",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xiaoyang Liu <siujoeng.lau@gmail.com> (https://xiaoyang-liu.com)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "webpack": "^5.25.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "keywords": [],
+  "description": ""
+}
