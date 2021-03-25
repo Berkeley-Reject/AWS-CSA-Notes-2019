@@ -7,29 +7,19 @@ const validateEvent = (event) => {
   return Array.isArray(event) ? event : [event];
 };
 
-const post = async (event) => {
-  const axiosEvent = {
-    ...event,
-    proxy: this.proxy,
-    method: 'POSt',
-  };
-  try {
-    const response = await axios(axiosEvent);
-    console.log(response.data.json);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 class WebpackWebhooksPlugin {
-  constructor(options) {
-    this.beforeRun = validateEvent(options.beforeRun);
-    this.success = validateEvent(options.success);
-    this.error = validateEvent(options.error);
-    this.proxy = options.proxy || {};
+  constructor({ options, events }) {
+    this.options = {};
+    this.options.proxy = options.proxy || {};
+
+    this.events = {};
+    this.events.beforeRun = validateEvent(events.beforeRun);
+    this.events.success = validateEvent(events.success);
+    this.events.error = validateEvent(events.error);
 
     this.beforeRunHook = this.beforeRunHook.bind(this);
     this.doneHook = this.doneHook.bind(this);
+    this.post = this.post.bind(this);
   }
 
   apply(compiler) {
@@ -37,8 +27,23 @@ class WebpackWebhooksPlugin {
     compiler.hooks.done.tapAsync('WebpackWebhooksPlugin', this.doneHook);
   }
 
+  async post(event) {
+    const config = {
+      ...event,
+      proxy: this.options.proxy,
+      method: 'POST',
+    };
+
+    try {
+      const response = await axios(config);
+      console.log(response.data.json);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async beforeRunHook(compiler, callback) {
-    const promiseArray = this.beforeRun.map((event) => post(event));
+    const promiseArray = this.events.beforeRun.map((event) => this.post(event));
     await Promise.allSettled(promiseArray);
     callback();
   }
@@ -46,12 +51,12 @@ class WebpackWebhooksPlugin {
   async doneHook(stats, callback) {
     const events = [];
     if (stats.hasErrors()) {
-      events.push(...this.error);
+      events.push(...this.events.error);
     } else {
-      events.push(...this.success);
+      events.push(...this.events.success);
     }
 
-    const promiseArray = events.map((event) => post(event));
+    const promiseArray = events.map((event) => this.post(event));
     await Promise.allSettled(promiseArray);
     callback();
   }
