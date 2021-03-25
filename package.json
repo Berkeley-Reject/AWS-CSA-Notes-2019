@@ -1,12 +1,22 @@
 {
   "name": "webpack-webhooks-plugin",
   "version": "1.0.0",
+  "description": "Notify external services when certain webpack build events happen.",
+  "keywords": ["webpack", "plugin", "webhooks", "webpack-webhooks-plugin"],
   "main": "src/index.js",
+  "author": "Xiaoyang Liu <siujoeng.lau@gmail.com> (https://xiaoyang-liu.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaoyang-liu-cs/webpack-webhooks-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xiaoyang-liu-cs/webpack-webhooks-plugin/issues"
+  },
+  "homepage": "https://github.com/xiaoyang-liu-cs/webpack-webhooks-plugin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Xiaoyang Liu <siujoeng.lau@gmail.com> (https://xiaoyang-liu.com)",
-  "license": "MIT",
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -15,7 +25,5 @@
   },
   "dependencies": {
     "axios": "^0.21.1"
-  },
-  "keywords": [],
-  "description": ""
+  }
 }
